@@ -1,9 +1,9 @@
-
 module github.com/aurc/plist
 
 go 1.17
 
 require (
+	github.com/ghodss/yaml v1.0.0
 	github.com/spf13/cobra v1.2.1
 	github.com/stretchr/testify v1.7.0
 	github.com/subchen/go-xmldom v1.1.2

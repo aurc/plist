@@ -22,7 +22,7 @@ import (
 var cfgFile string
 var input string
 var inputPayload []byte
-var pretty bool
+var highFidelity bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -36,16 +36,13 @@ on more involved shell scripts.
 
 For example:
     ./plist json -i myfile.plist
-    ./plist json | cat myfile.plist
+    cat myfile.plist | ./plist json
 
 For individual commands instructions run:
 	./plist [command] -h
 	./plist json -h
 `,
 	TraverseChildren: true,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//Run: func(cmd *cobra.Command, args []string) {},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -55,15 +52,9 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
 	rootCmd.PersistentFlags().StringVarP(&input, "input", "i", "",
 		"Specifies a input file, e.g. --input myFile.plist")
-	rootCmd.PersistentFlags().BoolVarP(&pretty, "pretty-print", "p", false,
-		"Pretty print (indent) output , e.g. --pretty true")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
+	rootCmd.PersistentFlags().BoolVarP(&highFidelity, "high-fidelity", "x", false,
+		`Specifies whether the output should be a one-to-one translation of the plist. 
+Set to true, it's one-to-one. The default is false as it produces a more readable file.`)
 }

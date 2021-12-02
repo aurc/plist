@@ -1,5 +1,5 @@
 /*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
+Copyright © 2021 Aurelio Calegari
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -18,21 +18,30 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/aurc/plist/internal"
+	"github.com/aurc/plist/pkg/plist"
 	"github.com/spf13/cobra"
 )
 
 // yamlCmd represents the yaml command
 var yamlCmd = &cobra.Command{
 	Use:   "yaml",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Converts plist into YAML",
+	Long:  `Outputs a YAML format payload converted from the given input plist.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("yaml called")
+		in, err := internal.ReadInput(input)
+		if err != nil {
+			panic(err)
+		}
+		output, err := plist.Parse(in, &plist.Config{
+			Target:       plist.Yaml,
+			HighFidelity: pretty,
+			Beatify:      false,
+		})
+		if err != nil {
+			panic(err)
+		}
+		fmt.Print(string(output))
 	},
 }
 

@@ -2,9 +2,13 @@ package plist
 
 import (
 	"bufio"
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/ghodss/yaml"
 
 	"github.com/subchen/go-xmldom"
 )
@@ -22,54 +26,134 @@ const (
 	Data
 )
 
-func Parse(in []byte) (string, error) {
+type Target int
+
+const (
+	Json Target = iota
+	Yaml
+	Html
+)
+
+type Config struct {
+	Target       Target
+	HighFidelity bool
+	Beatify      bool
+}
+
+func Parse(in []byte, config *Config) ([]byte, error) {
 	doc := xmldom.Must(xmldom.ParseXML(string(in)))
 	root := doc.Root
-	var dArr []*plnode
-	for _, cn := range root.Children {
-		itm, _ := makePLTypeFromNode(cn)
-		dArr = append(dArr, itm)
+	itm, _ := makePLTypeFromNode(root.FirstChild())
+	var output string
+	if config.HighFidelity {
+		output = itm.toJsonFull(nil)
+	} else {
+		output = itm.toJson(nil)
 	}
-	return dArr[0].toJson(nil), nil
+	bout := []byte(output)
+	var err error
+	switch config.Target {
+	case Json:
+		if config.Beatify {
+			var prettyJSON bytes.Buffer
+			err = json.Indent(&prettyJSON, bout, "", "  ")
+			if err != nil {
+				return nil, err
+			}
+			bout = prettyJSON.Bytes()
+		}
+		return bout, nil
+	case Yaml:
+		bout, err = yaml.JSONToYAML(bout)
+		if err != nil {
+			return nil, err
+		}
+		return bout, err
+	}
+	return nil, fmt.Errorf("not implemented type conversion")
 }
 
 type plnode struct {
-	Name  string
-	Type  pltype
-	Value interface{}
+	name   string
+	pltype pltype
+	value  interface{}
+}
+
+func (node *plnode) toJsonFull(parent *plnode) string {
+	v := ""
+	switch node.pltype {
+	case Data:
+		v = v + fmt.Sprintf("{\"%s\":", node.name)
+		s := bufio.NewScanner(strings.NewReader(
+			fmt.Sprintf("\"%v\"", node.value)))
+		dv := ""
+		for s.Scan() {
+			dv = dv + strings.TrimSpace(s.Text())
+		}
+		v = v + fmt.Sprintf("%v", dv) + "}"
+	case String, Date:
+		v = v + fmt.Sprintf("{\"%s\":", node.name)
+		v = v + fmt.Sprintf("\"%v\"}", node.value)
+	case Bool, Real, Integer:
+		v = v + fmt.Sprintf("{\"%s\":", node.name)
+		v = v + fmt.Sprintf("%v}", node.value)
+	case Array:
+		v = v + fmt.Sprintf("{\"%s\":", node.name)
+		v = v + "["
+		vv := node.value.([]*plnode)
+		for i, vi := range vv {
+			v = v + vi.toJsonFull(node)
+			if i < len(vv)-1 {
+				v = v + ","
+			}
+		}
+		v = v + "]}"
+	case Dict:
+		v = v + fmt.Sprintf("{\"%s\":", node.name)
+		v = v + "{"
+		vv := node.value.([]*plnode)
+		for i, vi := range vv {
+			v = v + vi.toJsonFull(node)
+			if i < len(vv)-1 {
+				v = v + ","
+			}
+		}
+		v = v + "}}"
+	}
+	return v
 }
 
 func (node *plnode) toJson(parent *plnode) string {
 	v := ""
-	switch node.Type {
+	switch node.pltype {
 	case Data:
-		if parent == nil || parent.Type != Array {
-			v = v + fmt.Sprintf("\"%s\":", node.Name)
+		if parent == nil || parent.pltype != Array {
+			v = v + fmt.Sprintf("\"%s\":", node.name)
 		}
 
 		s := bufio.NewScanner(strings.NewReader(
-			fmt.Sprintf("\"%v\"", node.Value)))
+			fmt.Sprintf("\"%v\"", node.value)))
 		dv := ""
 		for s.Scan() {
 			dv = dv + strings.TrimSpace(s.Text())
 		}
 		v = v + fmt.Sprintf("%v", dv)
 	case String, Date:
-		if parent == nil || parent.Type != Array {
-			v = v + fmt.Sprintf("\"%s\":", node.Name)
+		if parent == nil || parent.pltype != Array {
+			v = v + fmt.Sprintf("\"%s\":", node.name)
 		}
-		v = v + fmt.Sprintf("\"%v\"", node.Value)
+		v = v + fmt.Sprintf("\"%v\"", node.value)
 	case Bool, Real, Integer:
-		if parent == nil || parent.Type != Array {
-			v = v + fmt.Sprintf("\"%s\":", node.Name)
+		if parent == nil || parent.pltype != Array {
+			v = v + fmt.Sprintf("\"%s\":", node.name)
 		}
-		v = v + fmt.Sprintf("%v", node.Value)
+		v = v + fmt.Sprintf("%v", node.value)
 	case Array:
-		if parent != nil && parent.Type != Array {
-			v = v + fmt.Sprintf("\"%s\":", node.Name)
+		if parent != nil && parent.pltype != Array {
+			v = v + fmt.Sprintf("\"%s\":", node.name)
 		}
 		v = v + "["
-		vv := node.Value.([]*plnode)
+		vv := node.value.([]*plnode)
 		for i, vi := range vv {
 			v = v + vi.toJson(node)
 			if i < len(vv)-1 {
@@ -78,11 +162,11 @@ func (node *plnode) toJson(parent *plnode) string {
 		}
 		v = v + "]"
 	case Dict:
-		if node.Name != "" {
-			v = v + fmt.Sprintf("\"%s\":", node.Name)
+		if node.name != "" {
+			v = v + fmt.Sprintf("\"%s\":", node.name)
 		}
 		v = v + "{"
-		vv := node.Value.([]*plnode)
+		vv := node.value.([]*plnode)
 		for i, vi := range vv {
 			v = v + vi.toJson(node)
 			if i < len(vv)-1 {
@@ -99,11 +183,8 @@ func makePLTypeFromNode(n *xmldom.Node) (*plnode, *xmldom.Node) {
 	case "key":
 		next := n.NextSibling()
 		tp, _ := makePLTypeFromNode(next)
-		//if n.Text == "all_tasks" {
-		// fmt.Sprintf("I did!")
-		//}
-		tp.Name = n.Text
-		return makePLType(n.Text, tp.Type, tp.Value), next.NextSibling()
+		tp.name = n.Text
+		return makePLType(n.Text, tp.pltype, tp.value), next.NextSibling()
 	case "dict":
 		var dArr []*plnode
 		for i, cn := range n.Children {
@@ -150,8 +231,8 @@ func makePLTypeFromNode(n *xmldom.Node) (*plnode, *xmldom.Node) {
 
 func makePLType(name string, pltype pltype, value interface{}) *plnode {
 	return &plnode{
-		Name:  name,
-		Type:  pltype,
-		Value: value,
+		name:   name,
+		pltype: pltype,
+		value:  value,
 	}
 }

@@ -12,27 +12,78 @@ func TestParse(t *testing.T) {
 	tests := []struct {
 		name      string
 		inputFile string
+		config    *Config
 		expect    string
 	}{
 		{
-			name:      "Test Array As Root",
+			name:      "Test Array As Root to Json",
+			inputFile: "testdata/TestArraySimple.plist",
+			config: &Config{
+				Target:       Json,
+				HighFidelity: false,
+				Beatify:      false,
+			},
+			expect: "testdata/want/TestArraySimple.json",
+		},
+		{
+			name:      "Test Simple Array As Root to Json",
 			inputFile: "testdata/TestArray.plist",
-			expect:    "testdata/want/TestArray.json",
+			config: &Config{
+				Target:       Json,
+				HighFidelity: false,
+				Beatify:      false,
+			},
+			expect: "testdata/want/TestArray.json",
 		},
 		{
-			name:      "Test Dictionary As Root",
+			name:      "Test Dictionary As Root to Json",
 			inputFile: "testdata/TestDict.plist",
-			expect:    "testdata/want/TestDict.json",
+			config: &Config{
+				Target:       Json,
+				HighFidelity: false,
+				Beatify:      false,
+			},
+			expect: "testdata/want/TestDict.json",
 		},
 		{
-			name:      "Test Complex Example",
+			name:      "Test Complex Example to Json",
 			inputFile: "testdata/Info.plist",
-			expect:    "testdata/want/Info.json",
+			config: &Config{
+				Target:       Json,
+				HighFidelity: false,
+				Beatify:      false,
+			},
+			expect: "testdata/want/Info.json",
 		},
 		{
-			name:      "Test Complex Large File",
+			name:      "Test Complex Large File to Json",
 			inputFile: "testdata/Power.plist",
-			expect:    "testdata/want/Power.json",
+			config: &Config{
+				Target:       Json,
+				HighFidelity: false,
+				Beatify:      false,
+			},
+			expect: "testdata/want/Power.json",
+		},
+		{
+			name:      "Test Simple Array As Root to Json with High Fidelity",
+			inputFile: "testdata/TestArraySimple.plist",
+			config: &Config{
+				Target:       Json,
+				HighFidelity: true,
+				Beatify:      false,
+			},
+			expect: "testdata/want/TestArraySimpleHF.json",
+		},
+		{
+			name:      "Test Array As Root to Json with High Fidelity",
+			inputFile: "testdata/TestArray.plist",
+			config: &Config{
+				Target:       Json,
+				HighFidelity: true,
+				Beatify:      false,
+			},
+			expect: "testdata/want/TestArrayHF.json",
 		},
 	}
 	for _, test := range tests {
@@ -42,11 +93,11 @@ func TestParse(t *testing.T) {
 			be, err := ioutil.ReadFile(test.expect)
 			assert.NoError(t, err)
 			expected := string(be)
-			got, err := Parse(in)
+			got, err := Parse(in, test.config)
+			gotStr := string(got)
+			fmt.Println(gotStr)
 			assert.NoError(t, err)
-			fmt.Println(got)
-
-			assert.Equal(t, expected, got)
+			assert.Equal(t, expected, gotStr)
 		})
 	}
 }

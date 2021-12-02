@@ -6,6 +6,9 @@ github.com/antchfx/xpath
 github.com/davecgh/go-spew/spew
 # github.com/fsnotify/fsnotify v1.4.9
 ## explicit; go 1.13
+# github.com/ghodss/yaml v1.0.0
+## explicit
+github.com/ghodss/yaml
 # github.com/hashicorp/hcl v1.0.0
 ## explicit
 # github.com/inconshreveable/mousetrap v1.0.0
@@ -52,6 +55,7 @@ github.com/subchen/go-xmldom
 ## explicit
 # gopkg.in/yaml.v2 v2.4.0
 ## explicit; go 1.15
+gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 ## explicit
 gopkg.in/yaml.v3
