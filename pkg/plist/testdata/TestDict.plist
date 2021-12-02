@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>V1String</key>
+	<string>String</string>
+	<key>V2Int</key>
+	<integer>1</integer>
+	<key>V3Real</key>
+	<real>1.2</real>
+	<key>V4Date</key>
+	<date>2021-12-02T06:00:53Z</date>
+	<key>V5Bool</key>
+	<true/>
+	<key>V6Arr</key>
+	<array>
+		<string>String</string>
+		<integer>1</integer>
+		<real>1.2</real>
+		<date>2021-12-02T06:00:53Z</date>
+		<true/>
+	</array>
+</dict>
+</plist>
