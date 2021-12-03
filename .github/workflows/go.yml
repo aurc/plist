@@ -23,3 +23,18 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+  godeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Tag
+        run: git tag $(cat version) && git push origin $(cat version)
+
+      - name: Publish Go.Dev
+        run: GOPROXY=proxy.golang.org go list -m github.com/aurc/plist@$(cat version)
