@@ -1,3 +1,18 @@
+/*
+Copyright © 2021 Aurelio Calegari
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 package plist
 
 import (
@@ -43,11 +58,11 @@ type Config struct {
 func Parse(in []byte, config *Config) ([]byte, error) {
 	doc := xmldom.Must(xmldom.ParseXML(string(in)))
 	root := doc.Root
-	itm, _ := makePLTypeFromNode(root.FirstChild())
 	var output string
 	if config.HighFidelity {
-		output = itm.toJsonFull(nil)
+		output = toJsonFill(root.FirstChild(), nil)
 	} else {
+		itm, _ := makePLTypeFromNode(root.FirstChild())
 		output = itm.toJson(nil)
 	}
 	bout := []byte(output)
@@ -79,48 +94,60 @@ type plnode struct {
 	value  interface{}
 }
 
-func (node *plnode) toJsonFull(parent *plnode) string {
+func toJsonFill(n, parent *xmldom.Node) string {
 	v := ""
-	switch node.pltype {
-	case Data:
-		v = v + fmt.Sprintf("{\"%s\":", node.name)
-		s := bufio.NewScanner(strings.NewReader(
-			fmt.Sprintf("\"%v\"", node.value)))
-		dv := ""
-		for s.Scan() {
-			dv = dv + strings.TrimSpace(s.Text())
-		}
-		v = v + fmt.Sprintf("%v", dv) + "}"
-	case String, Date:
-		v = v + fmt.Sprintf("{\"%s\":", node.name)
-		v = v + fmt.Sprintf("\"%v\"}", node.value)
-	case Bool, Real, Integer:
-		v = v + fmt.Sprintf("{\"%s\":", node.name)
-		v = v + fmt.Sprintf("%v}", node.value)
-	case Array:
-		v = v + fmt.Sprintf("{\"%s\":", node.name)
-		v = v + "["
-		vv := node.value.([]*plnode)
-		for i, vi := range vv {
-			v = v + vi.toJsonFull(node)
-			if i < len(vv)-1 {
-				v = v + ","
-			}
-		}
-		v = v + "]}"
-	case Dict:
-		v = v + fmt.Sprintf("{\"%s\":", node.name)
-		v = v + "{"
-		vv := node.value.([]*plnode)
-		for i, vi := range vv {
-			v = v + vi.toJsonFull(node)
-			if i < len(vv)-1 {
-				v = v + ","
-			}
-		}
-		v = v + "}}"
+	if n == nil {
+		return v
 	}
-	return v
+	switch n.Name {
+	case "key":
+		v += fmt.Sprintf("{\"k\":\"%s\",", n.Text)
+		next := n.NextSibling()
+		v += fmt.Sprintf("\"v\":%s}", toJsonFill(next, nil))
+		return v
+	case "dict":
+		v += fmt.Sprintf("{\"type\":\"dict\",\"value\":[")
+		var arr []string
+		for i, cn := range n.Children {
+			if i%2 == 0 {
+				arr = append(arr, toJsonFill(cn, n))
+			}
+		}
+		v += strings.Join(arr, ",") + "]}"
+		return v
+	case "true", "false":
+		v += fmt.Sprintf("{\"type\":\"bool\",\"value\":\"%s\"}", n.Name)
+		return v
+	case "string", "real", "integer", "date":
+		v += fmt.Sprintf("{\"type\":\"%s\",\"value\":\"%s\"}", n.Name, n.Text)
+		return v
+	case "data":
+		v += fmt.Sprintf("{\"type\":\"%s\",\"value\":\"%s\"}", n.Name, trimData(n.Text))
+		return v
+	case "array":
+		v += fmt.Sprintf("{\"type\":\"array\",\"value\":[")
+		var arr []string
+		for _, cn := range n.Children {
+			itm := toJsonFill(cn, n)
+			arr = append(arr, fmt.Sprintf("%s", itm))
+		}
+		v += strings.Join(arr, ",") + "]}"
+		//if parent == nil {
+		//	v = fmt.Sprintf("{%s}", v)
+		//}
+		return v
+	}
+	return ""
+}
+
+func trimData(data interface{}) string {
+	s := bufio.NewScanner(strings.NewReader(
+		fmt.Sprintf("\"%v\"", data)))
+	dv := ""
+	for s.Scan() {
+		dv = dv + strings.TrimSpace(s.Text())
+	}
+	return fmt.Sprintf("%s", dv)
 }
 
 func (node *plnode) toJson(parent *plnode) string {
@@ -130,14 +157,7 @@ func (node *plnode) toJson(parent *plnode) string {
 		if parent == nil || parent.pltype != Array {
 			v = v + fmt.Sprintf("\"%s\":", node.name)
 		}
-
-		s := bufio.NewScanner(strings.NewReader(
-			fmt.Sprintf("\"%v\"", node.value)))
-		dv := ""
-		for s.Scan() {
-			dv = dv + strings.TrimSpace(s.Text())
-		}
-		v = v + fmt.Sprintf("%v", dv)
+		v = v + trimData(node.value)
 	case String, Date:
 		if parent == nil || parent.pltype != Array {
 			v = v + fmt.Sprintf("\"%s\":", node.name)

@@ -1,0 +1,26 @@
+type: array
+value:
+- type: string
+  value: String
+- type: integer
+  value: "1"
+- type: real
+  value: "1.2"
+- type: date
+  value: "2021-12-02T06:00:53Z"
+- type: bool
+  value: "true"
+- type: bool
+  value: "false"
+- type: array
+  value:
+  - type: string
+    value: String
+  - type: integer
+    value: "1"
+  - type: real
+    value: "1.2"
+  - type: date
+    value: "2021-12-02T06:00:53Z"
+  - type: bool
+    value: "true"

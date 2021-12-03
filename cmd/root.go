@@ -29,7 +29,7 @@ var rootCmd = &cobra.Command{
 	Use:   "plist",
 	Short: "Convert Apple's Property Lists",
 	Long: `This tool converts Apple's Property List (.plist) inputs into several useful
-formats, such as JSON, YAML and HTML.
+formats, such as JSON and YAML.
 
 It supports both a file name as input and a piped ('|') input which might be useful
 on more involved shell scripts.
@@ -45,8 +45,6 @@ For individual commands instructions run:
 	TraverseChildren: true,
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
 }

@@ -20,10 +20,5 @@ import (
 )
 
 func main() {
-	//info, err := os.Stdin.Stat()
-	//if err != nil {
-	//	panic(err)
-	//}
-	//fmt.Println(info, " - ", info.Size())
 	cmd.Execute()
 }

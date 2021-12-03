@@ -1,0 +1,11 @@
+V1String: String
+V2Int: 1
+V3Real: 1.2
+V4Date: "2021-12-02T06:00:53Z"
+V5Bool: true
+V6Arr:
+- String
+- 1
+- 1.2
+- "2021-12-02T06:00:53Z"
+- true

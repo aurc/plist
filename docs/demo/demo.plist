@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>idle_wakeups</key><integer>103</integer>
+        <key>idle_wakeups_per_s</key><real>20.533</real>
+        <key>timer_wakeups</key>
+        <array>
+            <dict>
+                <key>interval_ns</key><integer>2000000</integer>
+                <key>wakeups</key><integer>270</integer>
+                <key>wakeups_per_s</key><real>53.8244</real>
+            </dict>
+            <dict>
+                <key>interval_ns</key><integer>1500000</integer>
+                <key>wakeups</key><integer>170</integer>
+                <key>wakeups_per_s</key><real>22.44</real>
+            </dict>
+        </array>
+    </dict>
+</plist>

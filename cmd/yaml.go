@@ -35,7 +35,7 @@ var yamlCmd = &cobra.Command{
 		}
 		output, err := plist.Parse(in, &plist.Config{
 			Target:       plist.Yaml,
-			HighFidelity: pretty,
+			HighFidelity: highFidelity,
 			Beatify:      false,
 		})
 		if err != nil {
@@ -47,14 +47,4 @@ var yamlCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(yamlCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// yamlCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// yamlCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
