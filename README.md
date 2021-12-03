@@ -1,18 +1,82 @@
-# plist toolkit
+# plist
 Convert Apple's `plist` file format to `JSON` or `YAML` (natural & high fidelity modes) effortlessly.
-Often complex bundles and other files are
-very hard to read or seamlessly port to other applications. This library
-offers several integration options for the ingestion on these files.
+Often complex bundles and other files are very hard to read or seamlessly 
+port to other applications. 
 
-**Here we can find:**
+**This Package Provides:**
 - A **CLI** tool for reading and converting PLIST that can be fully intgrated
-with `shell` scripting.
+  with `shell` scripting.
 - A **golang module** that can be imported directly into golang projects with
-an easy to use API.
-- A **native bundle** that can be imported to any C-compatible 
-applications (e.g. Swift, C, C++, Python, etc).
+  an easy to use API.
+- A **native bundle** that can be imported to any C-compatible
+  applications (e.g. Swift, C, C++, Python, etc).
 
-## Quick Snapshot (CLI)
+## Installation
+
+```bash
+$ go get github.com/aurc/plist
+```
+
+# Basic Usage
+
+````go
+plistFile := `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<string>String</string>
+</array>
+</plist>`
+
+out, err := plist.Convert([]byte(plistFile), &plist.Config{
+  Target:       plist.Json,
+  HighFidelity: false,
+  Beatify:      true,
+})
+````
+
+### CLI Tool
+
+To get started:
+````
+go build cmd/main/main.go -o plist
+./plist -h
+````
+Output:
+````
+This tool converts Apple's Property List (.plist) inputs into several useful
+formats, such as JSON and YAML.
+
+It supports both a file name as input and a piped ('|') input which might be useful
+on more involved shell scripts.
+
+For example:
+    ./plist json -i myfile.plist
+    cat myfile.plist | ./plist json
+
+For individual commands instructions run:
+        ./plist [command] -h
+        ./plist json -h
+
+Usage:
+  plist [command]
+
+Available Commands:
+  completion  generate the autocompletion script for the specified shell
+  help        Help about any command
+  json        Converts plist into JSON
+  yaml        Converts plist into YAML
+
+Flags:
+  -h, --help            help for plist
+  -x, --high-fidelity   Specifies whether the output should be a one-to-one translation of the plist. 
+                        Set to true, it's one-to-one. The default is false as it produces a more readable file.
+  -i, --input string    Specifies a input file, e.g. --input myFile.plist
+
+Use "plist [command] --help" for more information about a command.
+
+````
+
 Given the input
 
 ````xml
@@ -38,7 +102,14 @@ Given the input
     </dict>
 </plist>
 ````
-Output as **JSON (Natural conversion)**
+#### Output as **JSON (Natural conversion)**
+````
+./plist json -i docs/demo/demo.plist -p true
+````
+OR
+````
+cat docs/demo/demo.plist | ./plist json -p true
+````
 The natural conversion will hide the verbosity of datatypes, having types
 to be easily inferred, for example a `<real>1.1</real>` becomes just `1.1` 
 without quotes whereas a `<dict>` will look more like a `JSON` objects, with
@@ -61,7 +132,15 @@ the `key` entries listed as fields.
   ]
 }
 ````
-Output as **YAML (Natural conversion)**
+#### Output as **YAML (Natural conversion)**
+````
+./plist yaml -i docs/demo/demo.plist
+````
+OR
+````
+cat docs/demo/demo.plist | ./plist yaml
+````
+Gives...
 ````yaml
 idle_wakeups: 103
 idle_wakeups_per_s: 20.533
@@ -73,11 +152,18 @@ timer_wakeups:
   wakeups: 170
   wakeups_per_s: 22.44
 ````
-However, depending on your application, you might want a full, high fidelity
+
+#### Output as **JSON (High fidelity)**
+````
+./plist json -i docs/demo/demo.plist -p true -x true
+````
+OR
+````
+cat docs/demo/demo.plist | ./plist json -p true -x true
+````
+Depending on your application, you might want a full, high fidelity
 translation, defining each entry and explicitly exposing the data types. For
 that, given the same input above, you'll have the following output:
-
-Output as **JSON (High fidelity)**
 ````json
 {
   "type": "dict",
@@ -160,6 +246,13 @@ Output as **JSON (High fidelity)**
 }
 ````
 Output as **YAML (High fidelity)**
+````
+./plist yaml -i docs/demo/demo.plist -x true
+````
+OR
+````
+cat docs/demo/demo.plist | ./plist yaml -x true
+````
 ````yaml
 type: dict
 value:
@@ -206,13 +299,9 @@ value:
 
 ````
 
-## Getting Started
+## License
 
-### CLI (From Source)
-Make sure you have `golang 1.17` or greater, then:
-````
-git clone https://github.com/aurc/plist.git
-````
+`plist` is released under the Apache 2.0 license. See [LICENSE](https://github.com/aurc/plist/blob/master/LICENSE)
 
 
 

@@ -155,7 +155,7 @@ func TestParse(t *testing.T) {
 			be, err := ioutil.ReadFile(test.expect)
 			assert.NoError(t, err)
 			expected := string(be)
-			got, err := Parse(in, test.config)
+			got, err := Convert(in, test.config)
 			assert.NoError(t, err)
 			gotStr := string(got)
 			fmt.Println(gotStr)

@@ -18,8 +18,9 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/aurc/plist"
+
 	"github.com/aurc/plist/internal"
-	"github.com/aurc/plist/pkg/plist"
 	"github.com/spf13/cobra"
 )
 
@@ -33,7 +34,7 @@ var yamlCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		output, err := plist.Parse(in, &plist.Config{
+		output, err := plist.Convert(in, &plist.Config{
 			Target:       plist.Yaml,
 			HighFidelity: highFidelity,
 			Beatify:      false,

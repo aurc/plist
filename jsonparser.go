@@ -46,16 +46,21 @@ type Target int
 const (
 	Json Target = iota
 	Yaml
-	Html
 )
 
+// Config sets the available conversions parameters such as:
+// - Target: Either Json or Yaml;
+// - HighFidelity: Generate a natural format or a more verbose format to explicitly identify each field datatype
+// (default is false).
+// - Beatify: Only available for Json, as by default the produced Json is in a minified format.
 type Config struct {
 	Target       Target
 	HighFidelity bool
 	Beatify      bool
 }
 
-func Parse(in []byte, config *Config) ([]byte, error) {
+// Convert a given plist file as the `in` input and the Config into either a Json or Yaml format.
+func Convert(in []byte, config *Config) ([]byte, error) {
 	doc := xmldom.Must(xmldom.ParseXML(string(in)))
 	root := doc.Root
 	var output string

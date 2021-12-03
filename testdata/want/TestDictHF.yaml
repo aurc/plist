@@ -1,0 +1,36 @@
+type: dict
+value:
+- k: V1String
+  v:
+    type: string
+    value: String
+- k: V2Int
+  v:
+    type: integer
+    value: "1"
+- k: V3Real
+  v:
+    type: real
+    value: "1.2"
+- k: V4Date
+  v:
+    type: date
+    value: "2021-12-02T06:00:53Z"
+- k: V5Bool
+  v:
+    type: bool
+    value: "true"
+- k: V6Arr
+  v:
+    type: array
+    value:
+    - type: string
+      value: String
+    - type: integer
+      value: "1"
+    - type: real
+      value: "1.2"
+    - type: date
+      value: "2021-12-02T06:00:53Z"
+    - type: bool
+      value: "true"
