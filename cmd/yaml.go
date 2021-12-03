@@ -19,8 +19,6 @@ import (
 	"fmt"
 
 	"github.com/aurc/plist"
-
-	"github.com/aurc/plist/internal"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +28,7 @@ var yamlCmd = &cobra.Command{
 	Short: "Converts plist into YAML",
 	Long:  `Outputs a YAML format payload converted from the given input plist.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		in, err := internal.ReadInput(input)
+		in, err := plist.ReadInput(input)
 		if err != nil {
 			panic(err)
 		}

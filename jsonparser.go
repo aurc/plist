@@ -20,6 +20,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 
@@ -93,6 +95,35 @@ func Convert(in []byte, config *Config) ([]byte, error) {
 	return nil, fmt.Errorf("not implemented type conversion")
 }
 
+// ReadInput will first check if there's any incoming content from
+// the Standard Input (via pipe) otherwise it assumes the input parameter
+// contains a valid input file name. This is file format agnostic.
+func ReadInput(input string) ([]byte, error) {
+	info, err := os.Stdin.Stat()
+	if err != nil {
+		panic(err)
+	}
+	if info.Mode()&os.ModeCharDevice != 0 || info.Size() <= 0 {
+		if input == "" {
+			return nil, fmt.Errorf("bad input")
+		} else {
+			inputPayload, err := ioutil.ReadFile(input)
+			if err != nil {
+				return nil, err
+			}
+			return inputPayload, nil
+		}
+	}
+
+	reader := bufio.NewReader(os.Stdin)
+
+	inputPayload, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return nil, err
+	}
+	return inputPayload, nil
+}
+
 type plnode struct {
 	name   string
 	pltype pltype
@@ -127,7 +158,7 @@ func toJsonFill(n, parent *xmldom.Node) string {
 		v += fmt.Sprintf("{\"type\":\"%s\",\"value\":\"%s\"}", n.Name, n.Text)
 		return v
 	case "data":
-		v += fmt.Sprintf("{\"type\":\"%s\",\"value\":\"%s\"}", n.Name, trimData(n.Text))
+		v += fmt.Sprintf("{\"type\":\"%s\",\"value\":%s}", n.Name, trimData(n.Text))
 		return v
 	case "array":
 		v += fmt.Sprintf("{\"type\":\"array\",\"value\":[")

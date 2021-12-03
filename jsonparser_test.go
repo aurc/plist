@@ -61,6 +61,26 @@ func TestParse(t *testing.T) {
 			expect: "testdata/want/TestDict.json",
 		},
 		{
+			name:      "Test App Info Plist as Json",
+			inputFile: "testdata/Info.plist",
+			config: &Config{
+				Target:       Json,
+				HighFidelity: false,
+				Beatify:      false,
+			},
+			expect: "testdata/want/Info.json",
+		},
+		{
+			name:      "Test App Info Plist as Yaml as high fidelity",
+			inputFile: "testdata/Info.plist",
+			config: &Config{
+				Target:       Yaml,
+				HighFidelity: true,
+				Beatify:      false,
+			},
+			expect: "testdata/want/InfoHF.yaml",
+		},
+		{
 			name:      "Test Complex Example to Json",
 			inputFile: "testdata/Info.plist",
 			config: &Config{
@@ -106,7 +126,7 @@ func TestParse(t *testing.T) {
 			config: &Config{
 				Target:       Json,
 				HighFidelity: true,
-				Beatify:      false,
+				Beatify:      true,
 			},
 			expect: "testdata/want/TestDictHF.json",
 		},
@@ -150,7 +170,7 @@ func TestParse(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			in, err := ioutil.ReadFile(test.inputFile)
+			in, err := ReadInput(test.inputFile)
 			assert.NoError(t, err)
 			be, err := ioutil.ReadFile(test.expect)
 			assert.NoError(t, err)

@@ -1,0 +1,328 @@
+type: dict
+value:
+- k: BGTaskSchedulerPermittedIdentifiers
+  v:
+    type: array
+    value:
+    - type: string
+      value: com.apple.stocks.backgroundFetchManager
+- k: BuildMachineOSBuild
+  v:
+    type: string
+    value: 20A241123
+- k: CFBundleDevelopmentRegion
+  v:
+    type: string
+    value: en
+- k: CFBundleDisplayName
+  v:
+    type: string
+    value: Stocks
+- k: CFBundleExecutable
+  v:
+    type: string
+    value: Stocks
+- k: CFBundleHelpBookFolder
+  v:
+    type: string
+    value: Stocks.help
+- k: CFBundleHelpBookName
+  v:
+    type: string
+    value: com.apple.Stocks.help
+- k: CFBundleIconFile
+  v:
+    type: string
+    value: AppIcon
+- k: CFBundleIconName
+  v:
+    type: string
+    value: AppIcon
+- k: CFBundleIdentifier
+  v:
+    type: string
+    value: com.apple.stocks
+- k: CFBundleInfoDictionaryVersion
+  v:
+    type: string
+    value: "6.0"
+- k: CFBundleName
+  v:
+    type: string
+    value: Stocks
+- k: CFBundlePackageType
+  v:
+    type: string
+    value: APPL
+- k: CFBundleShortVersionString
+  v:
+    type: string
+    value: "4.1"
+- k: CFBundleSupportedPlatforms
+  v:
+    type: array
+    value:
+    - type: string
+      value: MacOSX
+- k: CFBundleURLTypes
+  v:
+    type: array
+    value:
+    - type: dict
+      value:
+      - k: CFBundleURLName
+        v:
+          type: string
+          value: com.apple.stocks
+      - k: CFBundleURLSchemes
+        v:
+          type: array
+          value:
+          - type: string
+            value: stocks
+- k: CFBundleVersion
+  v:
+    type: string
+    value: "919.2"
+- k: CTIgnoreUserFonts
+  v:
+    type: bool
+    value: "true"
+- k: DTCompiler
+  v:
+    type: string
+    value: com.apple.compilers.llvm.clang.1_0
+- k: DTPlatformBuild
+  v:
+    type: string
+    value: 21A554
+- k: DTPlatformName
+  v:
+    type: string
+    value: macosx
+- k: DTPlatformVersion
+  v:
+    type: string
+    value: 12.0.1
+- k: DTSDKBuild
+  v:
+    type: string
+    value: 21A554
+- k: DTSDKName
+  v:
+    type: string
+    value: macosx12.0.internal
+- k: DTXcode
+  v:
+    type: string
+    value: "1300"
+- k: DTXcodeBuild
+  v:
+    type: string
+    value: 13A191
+- k: HPDHelpProjectIdentifier
+  v:
+    type: string
+    value: stocks
+- k: LSApplicationCategoryType
+  v:
+    type: string
+    value: ""
+- k: LSCounterpartIdentifiers
+  v:
+    type: array
+    value:
+    - type: string
+      value: com.apple.stocks.watchapp
+- k: LSMinimumSystemVersion
+  v:
+    type: string
+    value: "12.0"
+- k: NSCalendarsUsageDescription
+  v:
+    type: string
+    value: This will let you add events from Stocks to your calendar.
+- k: NSHumanReadableCopyright
+  v:
+    type: string
+    value: Copyright © 2021 Apple Inc. All rights reserved.
+- k: NSSupportsAutomaticTermination
+  v:
+    type: bool
+    value: "true"
+- k: NSSupportsSuddenTermination
+  v:
+    type: bool
+    value: "true"
+- k: NSUserActivityTypes
+  v:
+    type: array
+    value:
+    - type: string
+      value: StockIntent
+    - type: string
+      value: StocksOverviewIntent
+    - type: string
+      value: com.apple.stocks.basic
+    - type: string
+      value: com.apple.stocks.v2.ForYouFeed
+    - type: string
+      value: com.apple.stocks.v2.StockList
+    - type: string
+      value: com.apple.stocks.v2.SymbolFeed
+    - type: string
+      value: com.apple.stocks.v2.SymbolSearch
+    - type: string
+      value: com.apple.stocks.v2.Article
+- k: UIApplicationSceneManifest
+  v:
+    type: dict
+    value:
+    - k: UIApplicationSupportsMultipleScenes
+      v:
+        type: bool
+        value: "true"
+    - k: UISceneConfigurations
+      v:
+        type: dict
+        value:
+        - k: UIWindowSceneSessionRoleApplication
+          v:
+            type: array
+            value:
+            - type: dict
+              value:
+              - k: UISceneClassName
+                v:
+                  type: string
+                  value: TeaUI.WindowScene
+              - k: UISceneDelegateClassName
+                v:
+                  type: string
+                  value: StocksApp.SceneDelegate
+- k: UIApplicationShortcutItems
+  v:
+    type: array
+    value:
+    - type: dict
+      value:
+      - k: UIApplicationShortcutItemIconType
+        v:
+          type: string
+          value: UIApplicationShortcutIconTypeSearch
+      - k: UIApplicationShortcutItemTitle
+        v:
+          type: string
+          value: SEARCH_QUICK_ACTION_TITLE
+      - k: UIApplicationShortcutItemType
+        v:
+          type: string
+          value: com.apple.stocks.v2.SymbolSearch
+      - k: UIApplicationShortcutItemUserInfo
+        v:
+          type: dict
+          value:
+          - k: data
+            v:
+              type: data
+              value: eyJ0eXBlIjoiY29tLmFwcGxlLnN0b2Nrcy52Mi5TeW1ib2xTZWFyY2giLCJxdWVyeSI6IiJ9
+- k: UIApplicationShortcutWidget
+  v:
+    type: string
+    value: com.apple.stocks.widget
+- k: UIBackgroundModes
+  v:
+    type: array
+    value:
+    - type: string
+      value: fetch
+    - type: string
+      value: remote-notification
+- k: UIDeviceFamily
+  v:
+    type: array
+    value:
+    - type: integer
+      value: "2"
+- k: UIGlobalUserInterfaceIdiomMac
+  v:
+    type: bool
+    value: "true"
+- k: UILaunchStoryboardName
+  v:
+    type: string
+    value: LaunchScreen
+- k: UILaunchStoryboardName~iphone
+  v:
+    type: string
+    value: LaunchScreen~iphone
+- k: UILaunchStoryboardName~ipod
+  v:
+    type: string
+    value: LaunchScreen~iphone
+- k: UIMenuBarItemTitleAbout
+  v:
+    type: string
+    value: About Stocks
+- k: UIMenuBarItemTitleHelp
+  v:
+    type: string
+    value: Stocks Help
+- k: UIMenuBarItemTitleHide
+  v:
+    type: string
+    value: Hide Stocks
+- k: UIMenuBarItemTitleQuit
+  v:
+    type: string
+    value: Quit Stocks
+- k: UIRequiredDeviceCapabilities
+  v:
+    type: array
+    value:
+    - type: string
+      value: armv7
+- k: UIStatusBarStyle
+  v:
+    type: string
+    value: UIStatusBarStyleLightContent
+- k: UIStatusBarStyle~ipad
+  v:
+    type: string
+    value: UIStatusBarStyleDefault
+- k: UISupportedInterfaceOrientations~ipad
+  v:
+    type: array
+    value:
+    - type: string
+      value: UIInterfaceOrientationPortrait
+    - type: string
+      value: UIInterfaceOrientationPortraitUpsideDown
+    - type: string
+      value: UIInterfaceOrientationLandscapeLeft
+    - type: string
+      value: UIInterfaceOrientationLandscapeRight
+- k: UISupportedInterfaceOrientations~iphone
+  v:
+    type: array
+    value:
+    - type: string
+      value: UIInterfaceOrientationPortrait
+- k: UISupportedInterfaceOrientations~ipod
+  v:
+    type: array
+    value:
+    - type: string
+      value: UIInterfaceOrientationPortrait
+- k: UIUserInterfaceIdiomMac
+  v:
+    type: bool
+    value: "true"
+- k: UIUserInterfaceStyle
+  v:
+    type: string
+    value: Automatic
+- k: WKPluginBundleIdKey
+  v:
+    type: string
+    value: com.apple.stocks.watchkitextension

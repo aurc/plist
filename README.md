@@ -1,4 +1,8 @@
 # plist
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/aurc/plist)](https://goreportcard.com/report/github.com/aurc/plist)
+[![GoDoc](https://godoc.org/github.com/aurc/plist?status.svg)](https://godoc.org/github.com/aurc/plist)
+
 Convert Apple's `plist` file format to `JSON` or `YAML` (natural & high fidelity modes) effortlessly.
 Often complex bundles and other files are very hard to read or seamlessly 
 port to other applications. 
