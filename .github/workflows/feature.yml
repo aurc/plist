@@ -28,5 +28,6 @@ jobs:
       
     - name: Tags
       run: |
+        git fetch --prune --unshallow
         git describe --tags
       shell: bash  
