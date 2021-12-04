@@ -37,5 +37,5 @@ jobs:
         run: |
           cp ./ci/tag_prod.sh tag.sh
           chmod +x tag.sh
-          ./tag_prod.sh
+          ./tag.sh
         shell: bash
