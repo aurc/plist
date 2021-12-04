@@ -15,7 +15,7 @@
 #limitations under the License.
 
 CURV=$(git describe --tags --abbrev=0)
-IFS='.' read -ra VR <<< "$RELEASE_VERSION"
+IFS='.' read -ra VR <<< "$CURV"
 INC=`expr ${VR[2]} + 1`
 FV="${VR[0]}.${VR[1]}.$INC"
 git tag "${FV}" && git push origin "${FV}"

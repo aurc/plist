@@ -30,4 +30,6 @@ jobs:
       run: |
         git fetch --prune --unshallow
         git describe --tags
+        CURV=$(git describe --tags --abbrev=0)
+        echo $CURV
       shell: bash  
