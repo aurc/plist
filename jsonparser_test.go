@@ -16,7 +16,6 @@ limitations under the License.
 package plist
 
 import (
-	"fmt"
 	"io/ioutil"
 	"testing"
 
@@ -178,7 +177,6 @@ func TestParse(t *testing.T) {
 			got, err := Convert(in, test.config)
 			assert.NoError(t, err)
 			gotStr := string(got)
-			fmt.Println(gotStr)
 			assert.NoError(t, err)
 			assert.Equal(t, expected, gotStr)
 		})
