@@ -33,8 +33,8 @@ jobs:
         with:
           go-version: 1.17
 
-      - name: Tag
-        run: git tag $(cat version) && git push origin $(cat version)
-
-      - name: Publish Go.Dev
-        run: GOPROXY=proxy.golang.org go list -m github.com/aurc/plist@$(cat version)
+      - name: Tag and Deploy
+        run: |
+          chmod +x ./ci/tag_prod.sh
+          ./ci/tag_prod.sh
+        shell: bash
