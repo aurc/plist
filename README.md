@@ -48,12 +48,12 @@ It supports both a file name as input and a piped ('|') input which might be use
 on more involved shell scripts.
 
 For example:
-    ./plist json -i myfile.plist
-    cat myfile.plist | ./plist json
+    plist json -i myfile.plist
+    cat myfile.plist | plist json
 
 For individual commands instructions run:
-        ./plist [command] -h
-        ./plist json -h
+        plist [command] -h
+        plist json -h
 
 Usage:
   plist [command]
@@ -101,11 +101,11 @@ Given the input
 ````
 #### Output as **JSON (Natural conversion)**
 ````
-./plist json -i docs/demo/demo.plist -p true
+plist json -i docs/demo/demo.plist -p true
 ````
 OR
 ````
-cat docs/demo/demo.plist | ./plist json -p true
+cat docs/demo/demo.plist | plist json -p true
 ````
 The natural conversion will hide the verbosity of datatypes, having types
 to be easily inferred, for example a `<real>1.1</real>` becomes just `1.1` 
@@ -131,11 +131,11 @@ the `key` entries listed as fields.
 ````
 #### Output as **YAML (Natural conversion)**
 ````
-./plist yaml -i docs/demo/demo.plist
+plist yaml -i docs/demo/demo.plist
 ````
 OR
 ````
-cat docs/demo/demo.plist | ./plist yaml
+cat docs/demo/demo.plist | plist yaml
 ````
 Gives...
 ````yaml
@@ -152,11 +152,11 @@ timer_wakeups:
 
 #### Output as **JSON (High fidelity)**
 ````
-./plist json -i docs/demo/demo.plist -p true -x true
+plist json -i docs/demo/demo.plist -p true -x true
 ````
 OR
 ````
-cat docs/demo/demo.plist | ./plist json -p true -x true
+cat docs/demo/demo.plist | plist json -p true -x true
 ````
 Depending on your application, you might want a full, high fidelity
 translation, defining each entry and explicitly exposing the data types. For
@@ -244,11 +244,11 @@ that, given the same input above, you'll have the following output:
 ````
 Output as **YAML (High fidelity)**
 ````
-./plist yaml -i docs/demo/demo.plist -x true
+plist yaml -i docs/demo/demo.plist -x true
 ````
 OR
 ````
-cat docs/demo/demo.plist | ./plist yaml -x true
+cat docs/demo/demo.plist | plist yaml -x true
 ````
 ````yaml
 type: dict

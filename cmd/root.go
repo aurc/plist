@@ -35,12 +35,12 @@ It supports both a file name as input and a piped ('|') input which might be use
 on more involved shell scripts.
 
 For example:
-    ./plist json -i myfile.plist
-    cat myfile.plist | ./plist json
+    plist json -i myfile.plist
+    cat myfile.plist | plist json
 
 For individual commands instructions run:
-	./plist [command] -h
-	./plist json -h
+	plist [command] -h
+	plist json -h
 `,
 	TraverseChildren: true,
 }
