@@ -21,26 +21,11 @@ port to other applications.
 ## Installation
 
 ```bash
-$ go get github.com/aurc/plist
+# As CLI Tool
+$ go install github.com/aurc/plist@latest
 ```
 
-# Basic Usage
-
-````go
-plistFile := `<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<array>
-	<string>String</string>
-</array>
-</plist>`
-
-out, err := plist.Convert([]byte(plistFile), &plist.Config{
-  Target:       plist.Json,
-  HighFidelity: false,
-  Beatify:      true,
-})
-````
+## Basic Usage
 
 ### CLI Tool
 
@@ -304,6 +289,40 @@ value:
           type: real
           value: "22.44"
 
+````
+
+## As a Package 
+
+````bash
+$ go get github.com/aurc/plist/pkg/plistparser
+````
+
+````go
+package main
+
+import (
+    "fmt"
+	
+    "github.com/aurc/plist/pkg/plistparser"
+)
+
+func main() {
+  plistFile := `<?xml version="1.0" encoding="UTF-8"?>
+  <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+  <plist version="1.0">
+  <array>
+      <string>String</string>
+  </array>
+  </plist>`
+
+  out, _ := plistparser.Convert([]byte(plistFile), &plistparser.Config{
+    Target:       plistparser.Json,
+    HighFidelity: false,
+    Beatify:      true,
+  })
+  
+  fmt.Println(string(out))
+}
 ````
 
 ## License
