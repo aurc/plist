@@ -1,6 +1,10 @@
 # plist
 
 [![GoDoc](https://godoc.org/github.com/aurc/plist?status.svg)](https://godoc.org/github.com/aurc/plist)
+![example workflow](https://github.com/aurc/plist/actions/workflows/go.yml/badge.svg)
+[![codecov](https://codecov.io/gh/aurc/plist/branch/main/graph/badge.svg?token=NZKNTEJ5YC)](https://codecov.io/gh/aurc/plist)
+[![GitHub license](https://img.shields.io/github/license/aurc/plist)](https://github.com/aurc/plist/blob/main/LICENSE)
+
 
 Convert Apple's `plist` file format to `JSON` or `YAML` (natural & high fidelity modes) effortlessly.
 Often complex bundles and other files are very hard to read or seamlessly 
