@@ -15,16 +15,25 @@ func TestJsonCMD(t *testing.T) {
 		name      string
 		arguments []string
 		expect    string
+		stdIn     string
 	}{
 		{
 			"Test Simple Json",
 			[]string{"plist", "json", "-i", "../testdata/TestArray.plist"},
 			"../testdata/want/TestArray.json",
+			"",
 		},
 		{
 			"Test Simple Yaml",
 			[]string{"plist", "yaml", "-i", "../testdata/TestArray.plist"},
 			"../testdata/want/TestArray.yaml",
+			"",
+		},
+		{
+			"Test Simple Yaml via StdIn aka pipe",
+			[]string{"plist", "yaml"},
+			"../testdata/want/TestArray.yaml",
+			"../testdata/TestArray.plist",
 		},
 	}
 	oldArgs := os.Args
@@ -36,7 +45,7 @@ func TestJsonCMD(t *testing.T) {
 			got := captureOut(func() {
 				os.Args = test.arguments
 				Execute()
-			})
+			}, test.stdIn)
 			be, err := ioutil.ReadFile(test.expect)
 			assert.NoError(t, err)
 			expected := string(be)
@@ -45,10 +54,25 @@ func TestJsonCMD(t *testing.T) {
 	}
 }
 
-func captureOut(test func()) string {
-	old := os.Stdout // keep backup of the real stdout
+func captureOut(test func(), stdInFile string) string {
+	oldIn := os.Stdin
+	oldOut := os.Stdout
+	defer func() {
+		os.Stdin = oldIn
+		os.Stdout = oldOut
+	}()
 	r, w, _ := os.Pipe()
 	os.Stdout = w
+	if stdInFile != "" {
+		in, err := os.Open(stdInFile)
+		defer func() {
+			_ = in.Close()
+		}()
+		if err != nil {
+			panic(err)
+		}
+		os.Stdin = in
+	}
 
 	test()
 
@@ -62,7 +86,6 @@ func captureOut(test func()) string {
 
 	// back to normal state
 	w.Close()
-	os.Stdout = old // restoring the real stdout
 	out := <-outC
 	return out
 }

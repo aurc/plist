@@ -17,6 +17,7 @@ package plist
 
 import (
 	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -28,6 +29,7 @@ func TestParse(t *testing.T) {
 		inputFile string
 		config    *Config
 		expect    string
+		isStdIn   bool
 	}{
 		{
 			name:      "Test Array As Root to Json",
@@ -38,6 +40,17 @@ func TestParse(t *testing.T) {
 				Beatify:      false,
 			},
 			expect: "testdata/want/TestArraySimple.json",
+		},
+		{
+			name:      "Test Array As Root to Json with StdIn",
+			inputFile: "testdata/TestArraySimple.plist",
+			config: &Config{
+				Target:       Json,
+				HighFidelity: false,
+				Beatify:      false,
+			},
+			expect:  "testdata/want/TestArraySimple.json",
+			isStdIn: true,
 		},
 		{
 			name:      "Test Simple Array As Root to Json",
@@ -169,16 +182,34 @@ func TestParse(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			in, err := ReadInput(test.inputFile)
-			assert.NoError(t, err)
-			be, err := ioutil.ReadFile(test.expect)
-			assert.NoError(t, err)
-			expected := string(be)
-			got, err := Convert(in, test.config)
-			assert.NoError(t, err)
-			gotStr := string(got)
-			assert.NoError(t, err)
-			assert.Equal(t, expected, gotStr)
+			func() {
+				inputFile := test.inputFile
+				oldIn := os.Stdin
+				defer func() {
+					os.Stdin = oldIn
+				}()
+				if test.isStdIn {
+					inputFile = ""
+					in, err := os.Open(test.inputFile)
+					if err != nil {
+						panic(err)
+					}
+					defer func() {
+						_ = in.Close()
+					}()
+					os.Stdin = in
+				}
+				in, err := ReadInput(inputFile)
+				assert.NoError(t, err)
+				be, err := ioutil.ReadFile(test.expect)
+				assert.NoError(t, err)
+				expected := string(be)
+				got, err := Convert(in, test.config)
+				assert.NoError(t, err)
+				gotStr := string(got)
+				assert.NoError(t, err)
+				assert.Equal(t, expected, gotStr)
+			}()
 		})
 	}
 }
