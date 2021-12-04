@@ -13,29 +13,30 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package cmd
+package main
 
 import (
 	"fmt"
 
-	"github.com/aurc/plist"
 	"github.com/spf13/cobra"
 )
 
-// yamlCmd represents the yaml command
-var yamlCmd = &cobra.Command{
-	Use:   "yaml",
-	Short: "Converts plist into YAML",
-	Long:  `Outputs a YAML format payload converted from the given input plist.`,
+var pretty bool
+
+// jsonCmd represents the json command
+var jsonCmd = &cobra.Command{
+	Use:   "json",
+	Short: "Converts plist into JSON",
+	Long:  `Outputs a JSON format payload converted from the given input plist.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		in, err := plist.ReadInput(input)
+		in, err := ReadInput(input)
 		if err != nil {
 			panic(err)
 		}
-		output, err := plist.Convert(in, &plist.Config{
-			Target:       plist.Yaml,
+		output, err := Convert(in, &Config{
+			Target:       Json,
 			HighFidelity: highFidelity,
-			Beatify:      false,
+			Beatify:      pretty,
 		})
 		if err != nil {
 			panic(err)
@@ -45,5 +46,9 @@ var yamlCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(yamlCmd)
+	rootCmd.AddCommand(jsonCmd)
+
+	jsonCmd.PersistentFlags().BoolVarP(&pretty, "pretty-print", "p", false,
+		"Pretty print (indent) output , e.g. --pretty true")
+
 }

@@ -10,7 +10,7 @@ require (
 )
 
 require (
-	github.com/antchfx/xpath v0.0.0-20170515025933-1f3266e77307 // indirect
+	github.com/antchfx/xpath v1.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect

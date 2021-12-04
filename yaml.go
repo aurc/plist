@@ -16,9 +16,33 @@ limitations under the License.
 package main
 
 import (
-	"github.com/aurc/plist/cmd"
+	"fmt"
+
+	"github.com/spf13/cobra"
 )
 
-func main() {
-	cmd.Execute()
+// yamlCmd represents the yaml command
+var yamlCmd = &cobra.Command{
+	Use:   "yaml",
+	Short: "Converts plist into YAML",
+	Long:  `Outputs a YAML format payload converted from the given input plist.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		in, err := ReadInput(input)
+		if err != nil {
+			panic(err)
+		}
+		output, err := Convert(in, &Config{
+			Target:       Yaml,
+			HighFidelity: highFidelity,
+			Beatify:      false,
+		})
+		if err != nil {
+			panic(err)
+		}
+		fmt.Print(string(output))
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(yamlCmd)
 }

@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	"bytes"
@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestJsonCMD(t *testing.T) {
+func TestCMD(t *testing.T) {
 	tests := []struct {
 		name      string
 		arguments []string
@@ -21,21 +21,21 @@ func TestJsonCMD(t *testing.T) {
 	}{
 		{
 			"Test Simple Json",
-			[]string{"plist", "json", "-i", "../testdata/TestArray.plist"},
-			"../testdata/want/TestArray.json",
+			[]string{"plist", "json", "-i", "testdata/TestArray.plist"},
+			"testdata/want/TestArray.json",
 			"",
 		},
 		{
 			"Test Simple Yaml",
-			[]string{"plist", "yaml", "-i", "../testdata/TestArray.plist"},
-			"../testdata/want/TestArray.yaml",
+			[]string{"plist", "yaml", "-i", "testdata/TestArray.plist"},
+			"testdata/want/TestArray.yaml",
 			"",
 		},
 		{
 			"Test Simple Yaml via StdIn aka pipe",
 			[]string{"plist", "yaml"},
-			"../testdata/want/TestArray.yaml",
-			"../testdata/TestArray.plist",
+			"testdata/want/TestArray.yaml",
+			"testdata/TestArray.plist",
 		},
 	}
 	oldArgs := os.Args
@@ -46,7 +46,7 @@ func TestJsonCMD(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			got := captureOut(func() {
 				os.Args = test.arguments
-				Execute()
+				main()
 			}, test.stdIn)
 			be, err := ioutil.ReadFile(test.expect)
 			assert.NoError(t, err)
@@ -89,12 +89,12 @@ func TestBadPListFormat(t *testing.T) {
 		{
 			"Bad Json Input",
 			jsonCmd.Run,
-			"../testdata/want/TestArray.json",
+			"testdata/want/TestArray.json",
 		},
 		{
 			"Bad Yaml Input",
 			yamlCmd.Run,
-			"../testdata/want/TestArray.yaml",
+			"testdata/want/TestArray.yaml",
 		},
 	}
 	oldArgs := os.Args
