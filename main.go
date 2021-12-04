@@ -15,6 +15,8 @@ limitations under the License.
 */
 package main
 
+import "github.com/aurc/plist/cmd"
+
 func main() {
-	Execute()
+	cmd.Execute()
 }

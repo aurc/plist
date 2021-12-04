@@ -13,11 +13,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package main
+package cmd
 
 import (
 	"fmt"
 
+	"github.com/aurc/plist/pkg/plistparser"
 	"github.com/spf13/cobra"
 )
 
@@ -29,12 +30,12 @@ var jsonCmd = &cobra.Command{
 	Short: "Converts plist into JSON",
 	Long:  `Outputs a JSON format payload converted from the given input plist.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		in, err := ReadInput(input)
+		in, err := plistparser.ReadInput(input)
 		if err != nil {
 			panic(err)
 		}
-		output, err := Convert(in, &Config{
-			Target:       Json,
+		output, err := plistparser.Convert(in, &plistparser.Config{
+			Target:       plistparser.Json,
 			HighFidelity: highFidelity,
 			Beatify:      pretty,
 		})

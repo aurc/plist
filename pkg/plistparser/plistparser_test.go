@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package main
+package plistparser
 
 import (
 	"io/ioutil"
@@ -33,151 +33,151 @@ func TestParse(t *testing.T) {
 	}{
 		{
 			name:      "Test Array As Root to Json",
-			inputFile: "testdata/TestArraySimple.plist",
+			inputFile: "../../testdata/TestArraySimple.plist",
 			config: &Config{
 				Target:       Json,
 				HighFidelity: false,
 				Beatify:      false,
 			},
-			expect: "testdata/want/TestArraySimple.json",
+			expect: "../../testdata/want/TestArraySimple.json",
 		},
 		{
 			name:      "Test Array As Root to Json with StdIn",
-			inputFile: "testdata/TestArraySimple.plist",
+			inputFile: "../../testdata/TestArraySimple.plist",
 			config: &Config{
 				Target:       Json,
 				HighFidelity: false,
 				Beatify:      false,
 			},
-			expect:  "testdata/want/TestArraySimple.json",
+			expect:  "../../testdata/want/TestArraySimple.json",
 			isStdIn: true,
 		},
 		{
 			name:      "Test Simple Array As Root to Json",
-			inputFile: "testdata/TestArray.plist",
+			inputFile: "../../testdata/TestArray.plist",
 			config: &Config{
 				Target:       Json,
 				HighFidelity: false,
 				Beatify:      false,
 			},
-			expect: "testdata/want/TestArray.json",
+			expect: "../../testdata/want/TestArray.json",
 		},
 		{
 			name:      "Test Dictionary As Root to Json",
-			inputFile: "testdata/TestDict.plist",
+			inputFile: "../../testdata/TestDict.plist",
 			config: &Config{
 				Target:       Json,
 				HighFidelity: false,
 				Beatify:      false,
 			},
-			expect: "testdata/want/TestDict.json",
+			expect: "../../testdata/want/TestDict.json",
 		},
 		{
 			name:      "Test App Info Plist as Json",
-			inputFile: "testdata/Info.plist",
+			inputFile: "../../testdata/Info.plist",
 			config: &Config{
 				Target:       Json,
 				HighFidelity: false,
 				Beatify:      false,
 			},
-			expect: "testdata/want/Info.json",
+			expect: "../../testdata/want/Info.json",
 		},
 		{
 			name:      "Test App Info Plist as Yaml as high fidelity",
-			inputFile: "testdata/Info.plist",
+			inputFile: "../../testdata/Info.plist",
 			config: &Config{
 				Target:       Yaml,
 				HighFidelity: true,
 				Beatify:      false,
 			},
-			expect: "testdata/want/InfoHF.yaml",
+			expect: "../../testdata/want/InfoHF.yaml",
 		},
 		{
 			name:      "Test Complex Example to Json",
-			inputFile: "testdata/Info.plist",
+			inputFile: "../../testdata/Info.plist",
 			config: &Config{
 				Target:       Json,
 				HighFidelity: false,
 				Beatify:      false,
 			},
-			expect: "testdata/want/Info.json",
+			expect: "../../testdata/want/Info.json",
 		},
 		{
 			name:      "Test Complex Large File to Json",
-			inputFile: "testdata/Power.plist",
+			inputFile: "../../testdata/Power.plist",
 			config: &Config{
 				Target:       Json,
 				HighFidelity: false,
 				Beatify:      false,
 			},
-			expect: "testdata/want/Power.json",
+			expect: "../../testdata/want/Power.json",
 		},
 		{
 			name:      "Test Simple Array As Root to Json with High Fidelity",
-			inputFile: "testdata/TestArraySimple.plist",
+			inputFile: "../../testdata/TestArraySimple.plist",
 			config: &Config{
 				Target:       Json,
 				HighFidelity: true,
 				Beatify:      false,
 			},
-			expect: "testdata/want/TestArraySimpleHF.json",
+			expect: "../../testdata/want/TestArraySimpleHF.json",
 		},
 		{
 			name:      "Test Array As Root to Json with High Fidelity",
-			inputFile: "testdata/TestArray.plist",
+			inputFile: "../../testdata/TestArray.plist",
 			config: &Config{
 				Target:       Json,
 				HighFidelity: true,
 				Beatify:      false,
 			},
-			expect: "testdata/want/TestArrayHF.json",
+			expect: "../../testdata/want/TestArrayHF.json",
 		},
 		{
 			name:      "Test Dictionary As Root to Json with High Fidelity, pretty print",
-			inputFile: "testdata/TestDict.plist",
+			inputFile: "../../testdata/TestDict.plist",
 			config: &Config{
 				Target:       Json,
 				HighFidelity: true,
 				Beatify:      true,
 			},
-			expect: "testdata/want/TestDictHF.json",
+			expect: "../../testdata/want/TestDictHF.json",
 		},
 		{
 			name:      "Test Array As Root to Yaml",
-			inputFile: "testdata/TestArray.plist",
+			inputFile: "../../testdata/TestArray.plist",
 			config: &Config{
 				Target:       Yaml,
 				HighFidelity: false,
 				Beatify:      false,
 			},
-			expect: "testdata/want/TestArray.yaml",
+			expect: "../../testdata/want/TestArray.yaml",
 		},
 		{
 			name:      "Test Dictionary As Root to Yaml",
-			inputFile: "testdata/TestDict.plist",
+			inputFile: "../../testdata/TestDict.plist",
 			config: &Config{
 				Target:       Yaml,
 				HighFidelity: false,
 			},
-			expect: "testdata/want/TestDict.yaml",
+			expect: "../../testdata/want/TestDict.yaml",
 		},
 		{
 			name:      "Test Array As Root to Yaml with high fidelity",
-			inputFile: "testdata/TestArray.plist",
+			inputFile: "../../testdata/TestArray.plist",
 			config: &Config{
 				Target:       Yaml,
 				HighFidelity: true,
 			},
-			expect: "testdata/want/TestArrayHF.yaml",
+			expect: "../../testdata/want/TestArrayHF.yaml",
 		},
 		{
 			name:      "Test Dictionary As Root to Yaml with High Fidelity",
-			inputFile: "testdata/TestDict.plist",
+			inputFile: "../../testdata/TestDict.plist",
 			config: &Config{
 				Target:       Yaml,
 				HighFidelity: true,
 			},
-			expect: "testdata/want/TestDictHF.yaml",
+			expect: "../../testdata/want/TestDictHF.yaml",
 		},
 	}
 	for _, test := range tests {
