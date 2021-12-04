@@ -62,7 +62,12 @@ type Config struct {
 }
 
 // Convert a given plist file as the `in` input and the Config into either a Json or Yaml format.
-func Convert(in []byte, config *Config) ([]byte, error) {
+func Convert(in []byte, config *Config) (bout []byte, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			err = r.(error)
+		}
+	}()
 	doc := xmldom.Must(xmldom.ParseXML(string(in)))
 	root := doc.Root
 	var output string
@@ -72,27 +77,20 @@ func Convert(in []byte, config *Config) ([]byte, error) {
 		itm, _ := makePLTypeFromNode(root.FirstChild())
 		output = itm.toJson(nil)
 	}
-	bout := []byte(output)
-	var err error
+	bout = []byte(output)
 	switch config.Target {
 	case Json:
 		if config.Beatify {
 			var prettyJSON bytes.Buffer
-			err = json.Indent(&prettyJSON, bout, "", "  ")
-			if err != nil {
-				return nil, err
+			_ = json.Indent(&prettyJSON, bout, "", "  ")
+			if prettyJSON.Len() > 0 {
+				bout = prettyJSON.Bytes()
 			}
-			bout = prettyJSON.Bytes()
 		}
-		return bout, nil
 	case Yaml:
 		bout, err = yaml.JSONToYAML(bout)
-		if err != nil {
-			return nil, err
-		}
-		return bout, err
 	}
-	return nil, fmt.Errorf("not implemented type conversion")
+	return bout, err
 }
 
 // ReadInput will first check if there's any incoming content from
