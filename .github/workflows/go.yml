@@ -38,6 +38,8 @@ jobs:
 
       - name: Tag and Deploy
         run: |
+          git fetch --prune --unshallow
+          git describe --tags
           cp ./ci/tag_prod.sh tag.sh
           chmod +x tag.sh
           ./tag.sh
