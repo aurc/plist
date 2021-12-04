@@ -22,7 +22,7 @@ port to other applications.
 
 ```bash
 # As CLI Tool
-$ go install github.com/aurc/plist@latest
+go install github.com/aurc/plist@latest
 ```
 
 ## Basic Usage
@@ -31,8 +31,13 @@ $ go install github.com/aurc/plist@latest
 
 To get started:
 ````
-go build cmd/main/main.go -o plist
-./plist -h
+go install github.com/aurc/plist@latest
+````
+
+Assuming your `$GOPATH/bin` is in your path, then:
+
+````
+plist -h
 ````
 Output:
 ````
