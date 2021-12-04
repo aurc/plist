@@ -25,3 +25,8 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+      
+    - name: Tags
+      run: |
+        git version
+      shell: bash  
