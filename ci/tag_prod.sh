@@ -14,8 +14,10 @@
 #See the License for the specific language governing permissions and
 #limitations under the License.
 
-CURV=$(git describe --tags --abbrev=0)
-IFS='.' read -ra VR <<< "$CURV"
+echo $RELEASE_VERSION
+echo ${{ env.RELEASE_VERSION }}
+#CURV=$(git describe --tags --abbrev=0)
+IFS='.' read -ra VR <<< "$RELEASE_VERSION"
 INC=`expr ${VR[2]} + 1`
 FV="${VR[0]}.${VR[1]}.$INC"
 git tag "${FV}" && git push origin "${FV}"
