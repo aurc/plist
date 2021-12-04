@@ -38,9 +38,11 @@ jobs:
 
       - name: Tag and Deploy
         run: |
-          git fetch --prune --unshallow
-          git describe --tags
-          cp ./ci/tag_prod.sh tag.sh
-          chmod +x tag.sh
-          ./tag.sh
+        git fetch --prune --unshallow
+        git describe --tags
+        CURV=$(git describe --tags --abbrev=0)
+        IFS='.' read -ra VR <<< "$CURV"
+        INC=`expr ${VR[2]} + 1`
+        FV="${VR[0]}.${VR[1]}.$INC"
+        echo $FV
         shell: bash
