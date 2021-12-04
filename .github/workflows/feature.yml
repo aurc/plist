@@ -28,5 +28,5 @@ jobs:
       
     - name: Tags
       run: |
-        git version
+        git describe --tags
       shell: bash  
