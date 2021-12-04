@@ -35,6 +35,7 @@ jobs:
 
       - name: Tag and Deploy
         run: |
-          chmod +x ci/tag_prod.sh
-          ./ci/tag_prod.sh
+          cp ./ci/tag_prod.sh tag.sh
+          chmod +x tag.sh
+          ./tag_prod.sh
         shell: bash
