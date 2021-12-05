@@ -27,7 +27,7 @@ brews:
 
     tap:
       owner: aurc
-      name: homebrew-plist
+      name: homebrew-tap
       branch: main
 #      # Optionally a token can be provided, if it differs from the token provided to GoReleaser
 #      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
@@ -51,7 +51,7 @@ brews:
 
     # Your app's homepage.
     # Default is empty.
-    homepage: "https://github.com/aurc/homebrew-plist"
+    homepage: "https://github.com/aurc/homebrew-tap"
 
     # Template of your app's description.
     # Default is empty.
