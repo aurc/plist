@@ -32,7 +32,7 @@ jobs:
       run: bash <(curl -s https://codecov.io/bash)
 
   tag:
-    needs: build
+    needs: ci
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -55,7 +55,7 @@ jobs:
           eval "git tag $FV && git push origin $FV"
           eval "GOPROXY=proxy.golang.org go list -m github.com/aurc/plist@$FV"
         shell: bash
-  build:
+  release:
     needs: tag
     runs-on: ubuntu-latest
     steps:
