@@ -56,7 +56,7 @@ jobs:
           eval "GOPROXY=proxy.golang.org go list -m github.com/aurc/plist@$FV"
         shell: bash
   goreleaser:
-    needs: build
+    needs: godeploy
     runs-on: ubuntu-latest
     steps:
       -
