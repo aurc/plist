@@ -15,15 +15,24 @@ port to other applications.
   with `shell` scripting.
 - A **golang module** that can be imported directly into golang projects with
   an easy to use API.
-- A **native bundle** that can be imported to any C-compatible
+- A **native bundle** *(coming soon)* that can be imported to any C-compatible
   applications (e.g. Swift, C, C++, Python, etc).
 
 ## Installation
 
-```bash
+````bash
 # As CLI Tool
 go install github.com/aurc/plist@latest
-```
+# Then (assumung $GOPATH/bin set in the path)
+plist --help
+````
+OR
+````bash
+# For working only with parser lib on your go code
+go get github.com/aurc/plist/pkg/plistparser
+# For entire package with CLI tool on your local (more below)
+go get github.com/aurc/plist
+````
 
 ## Basic Usage
 
