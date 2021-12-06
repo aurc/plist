@@ -20,6 +20,16 @@ port to other applications.
 
 ## Installation
 
+### Homebrew For the Inpatient
+
+Consider using homebrew to install the utility from there:
+````
+brew install aurc/tap/plist
+````
+More information here: [plist homebrew tap](https://github.com/aurc/homebrew-tap)
+
+### Golang
+
 ````bash
 # As CLI Tool
 go install github.com/aurc/plist@latest
